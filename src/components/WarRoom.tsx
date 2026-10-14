@@ -16,7 +16,9 @@ import {
   Search,
   ArrowLeft,
   Sparkles,
+  Radio,
 } from "lucide-react";
+import dynamic from "next/dynamic";
 import { useAuth } from "@/context/AuthContext";
 import { useGroupChat, usePresence } from "@/hooks/useGroupChat";
 import { useShieldStats, useIncidentTimer } from "@/hooks/useShieldStats";
@@ -28,6 +30,10 @@ import ComposerBar from "./ComposerBar";
 import MembersPanel from "./MembersPanel";
 import ShieldLog from "./ShieldLog";
 import Toast from "./Toast";
+
+const EmergencyCallBridge = dynamic(() => import("./EmergencyCallBridge"), {
+  ssr: false,
+});
 
 export type Severity = "CRITICAL" | "HIGH" | "MEDIUM" | "LOW";
 
@@ -87,6 +93,7 @@ export default function WarRoom({ initialRoomId }: { initialRoomId: string }) {
   const [toast, setToast] = useState<{ message: string; type: "success" | "error" | "info" } | null>(null);
   const [seeded, setSeeded] = useState<Set<string>>(new Set());
   const [demoRunning, setDemoRunning] = useState(false);
+  const [showCallBridge, setShowCallBridge] = useState(false);
   const [showRoomSwitcher, setShowRoomSwitcher] = useState(false);
   const [switcherQuery, setSwitcherQuery] = useState("");
   const messagesEndRef = useRef<HTMLDivElement>(null);
@@ -472,6 +479,20 @@ export default function WarRoom({ initialRoomId }: { initialRoomId: string }) {
             {/* War Room Actions */}
             <div className="flex items-center gap-2">
               <button
+                id="btn-call-bridge"
+                onClick={() => setShowCallBridge(!showCallBridge)}
+                className={`flex items-center gap-1.5 px-3 py-1.5 rounded-lg text-xs font-mono font-medium transition-all ${
+                  showCallBridge
+                    ? "bg-[#ccff00] text-black shadow-[0_0_15px_rgba(204,255,0,0.4)]"
+                    : "bg-[#ccff00]/10 border border-[#ccff00]/40 text-[#ccff00] hover:bg-[#ccff00]/20"
+                }`}
+                title="Toggle Emergency Voice & Video Bridge powered by CometChat Calls SDK"
+              >
+                <Radio className={`w-3.5 h-3.5 ${showCallBridge ? "animate-pulse" : ""}`} />
+                <span>{showCallBridge ? "Bridge Live" : "Voice/Video"}</span>
+              </button>
+
+              <button
                 id="btn-simulate-alert"
                 onClick={handleSimulateAlert}
                 className="flex items-center gap-1.5 px-3 py-1.5 rounded-lg text-xs font-mono font-medium transition-colors bg-amber-500/10 border border-amber-500/30 text-[#f59e0b] hover:bg-amber-500/20"
@@ -511,6 +532,17 @@ export default function WarRoom({ initialRoomId }: { initialRoomId: string }) {
               </button>
             </div>
           </div>
+
+          {/* Emergency Audio/Video Bridge */}
+          {showCallBridge && (
+            <div className="p-4 pb-0">
+              <EmergencyCallBridge
+                roomId={activeRoomId}
+                roomName={activeRoom.name}
+                onClose={() => setShowCallBridge(false)}
+              />
+            </div>
+          )}
 
           {/* Messages Stream */}
           <div className="flex-1 overflow-y-auto p-4 space-y-3 chat-scroll">

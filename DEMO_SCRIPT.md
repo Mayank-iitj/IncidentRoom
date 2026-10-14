@@ -53,16 +53,18 @@ fetch_cometchat_doc_page("/sdk/javascript/overview.md")
 
 ---
 
-### 40–60s: Sentinel Alert
+### 40–55s: Sentinel Alert & Emergency Voice/Video Bridge (Calls SDK v5)
 
 **Steps (in Asha's window):**
-1. Click "Simulate Alert" in the header
-2. A Sentinel Alert card appears — structured with severity badge, source IP, affected service, recommended action
-3. Point out the "Acknowledge" button
-4. Ravi clicks Acknowledge in Window B — an acknowledgment message appears in the thread
+1. Click "Simulate Alert" in the header — structured threat intelligence card appears.
+2. Click **"Voice/Video"** in the header — the **Emergency Audio/Video Bridge** drops down:
+   - Live WebRTC camera tiles with Asha and Ravi
+   - Real-time voice waveform animations and active speaking indicator
+   - Tactical controls: Mic toggle, Camera toggle, Screen share, and Raise hand
+   - Click "Minimize" to show Picture-In-Picture mode in the corner while keeping the chat active!
 
 **Narration:**
-> "Sentinel posts structured threat intelligence cards. Ravi acknowledges the alert across the wire in real time."
+> "When an incident spikes, responders jump straight onto an encrypted WebRTC voice and video bridge powered by CometChat Calls SDK v5, without losing chat context."
 
 **Alternative — Run Demo Mode:**
 1. Click "Run Demo" button

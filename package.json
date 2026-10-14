@@ -12,6 +12,7 @@
     "postinstall": "node patch-cometchat.js"
   },
   "dependencies": {
+    "@cometchat/calls-sdk-javascript": "^5.0.7",
     "@cometchat/chat-sdk-javascript": "^4.2.0",
     "framer-motion": "^14.1.1",
     "lucide-react": "^1.56.0",
